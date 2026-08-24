@@ -46,6 +46,9 @@ app = Flask(__name__)
 config = get_config()
 app.config.from_object(config)
 
+
+db.init_db()
+
 # Enable CORS for Mobile Apps
 if CORS:
     allowed_origins = [origin.strip() for origin in app.config["ALLOWED_ORIGINS"]]
