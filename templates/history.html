@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}My Medical History & Records — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h2 fw-bold mb-1">Health Records & History</h1>
+      <p class="text-secondary small mb-0">View all your historical AI symptom analyses, diagnosis reports, and appointment records</p>
+    </div>
+    <a href="{{ url_for('symptoms') }}" class="btn btn-gradient rounded-pill px-4">
+      <i class="fa-solid fa-plus me-1"></i> New Analysis
+    </a>
+  </div>
+
+  <!-- ── Navigation Tabs ── -->
+  <ul class="nav nav-pills mb-4 gap-2" id="historyTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active rounded-pill px-4" id="predictions-tab" data-bs-toggle="pill" data-bs-target="#predictions" type="button" role="tab">
+        <i class="fa-solid fa-microchip me-1"></i> AI Predictions ({{ predictions|length }})
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-pill px-4" id="appointments-tab" data-bs-toggle="pill" data-bs-target="#appointments" type="button" role="tab">
+        <i class="fa-regular fa-calendar-check me-1"></i> Appointments ({{ appointments|length }})
+      </button>
+    </li>
+  </ul>
+
+  <!-- ── Tab Contents ── -->
+  <div class="tab-content" id="historyTabContent">
+    <!-- Predictions Tab -->
+    <div class="tab-pane fade show active" id="predictions" role="tabpanel">
+      {% if predictions %}
+        <div class="accordion d-flex flex-column gap-3" id="predictionsAccordion">
+          {% for p in predictions %}
+            <div class="glass-card overflow-hidden border-secondary-subtle">
+              <div class="p-4" id="heading{{ p.id }}">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                  <div>
+                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill mb-2">
+                      {{ p.confidence }}% AI Confidence
+                    </span>
+                    <h4 class="fw-bold text-light mb-1">{{ p.predicted_disease }}</h4>
+                    <span class="small text-secondary"><i class="fa-regular fa-clock me-1"></i> {{ p.created_at }}</span>
+                  </div>
+                  <div>
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ p.id }}">
+                      View Full Details <i class="fa-solid fa-chevron-down ms-1"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Collapsible Details -->
+                <div id="collapse{{ p.id }}" class="collapse mt-4 pt-3 border-top border-secondary">
+                  <div class="row g-4">
+                    <div class="col-md-6">
+                      <h6 class="fw-bold text-light small mb-2">Analyzed Symptoms:</h6>
+                      <div class="d-flex flex-wrap gap-1 mb-3">
+                        {% for sym in p.symptoms_list %}
+                          <span class="badge bg-darker border border-secondary text-light">{{ sym }}</span>
+                        {% endfor %}
+                      </div>
+
+                      <h6 class="fw-bold text-light small mb-1">Clinical Description:</h6>
+                      <p class="small text-secondary mb-3">{{ p.description }}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                      <h6 class="fw-bold text-warning small mb-2">Recommended Precautions:</h6>
+                      <ul class="list-unstyled d-flex flex-column gap-1 small text-secondary mb-3">
+                        {% for prec in p.precautions_list[:4] %}
+                          <li class="d-flex align-items-start gap-2">
+                            <i class="fa-solid fa-check text-warning mt-1"></i>
+                            <span>{{ prec }}</span>
+                          </li>
+                        {% endfor %}
+                      </ul>
+
+                      <h6 class="fw-bold text-info small mb-1">Exercise Advice:</h6>
+                      <p class="small text-secondary mb-0">{{ p.exercise_recommendation }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="glass-card text-center py-5">
+          <i class="fa-solid fa-clock-rotate-left fs-1 text-muted mb-3 d-block"></i>
+          <h5>No prediction history found</h5>
+          <p class="text-secondary small mb-3">Run an AI symptom check to begin logging your diagnostic history.</p>
+          <a href="{{ url_for('symptoms') }}" class="btn btn-gradient rounded-pill px-4">Start Symptom Check</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Appointments Tab -->
+    <div class="tab-pane fade" id="appointments" role="tabpanel">
+      {% if appointments %}
+        <div class="glass-card p-4">
+          <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0">
+              <thead>
+                <tr class="text-secondary small">
+                  <th>Doctor</th>
+                  <th>Specialization</th>
+                  <th>Date & Time</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for a in appointments %}
+                  <tr>
+                    <td class="fw-bold text-light">{{ a.doctor_name }}</td>
+                    <td><span class="badge bg-info-subtle text-info">{{ a.specialization }}</span></td>
+                    <td class="small text-light">{{ a.appointment_date }} at {{ a.appointment_time }}</td>
+                    <td class="small text-secondary">{{ a.reason or 'Consultation' }}</td>
+                    <td>
+                      <span class="badge {% if a.status == 'Confirmed' %}bg-success-subtle text-success{% elif a.status == 'Pending' %}bg-warning-subtle text-warning{% elif a.status == 'Completed' %}bg-info-subtle text-info{% else %}bg-danger-subtle text-danger{% endif %}">
+                        {{ a.status }}
+                      </span>
+                    </td>
+                    <td>
+                      <a href="{{ url_for('patient_chat', doctor_id=a.doctor_id) }}" class="btn btn-sm btn-outline-light rounded-pill px-3">
+                        <i class="fa-solid fa-comments me-1"></i> Chat
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% else %}
+        <div class="glass-card text-center py-5">
+          <i class="fa-regular fa-calendar-xmark fs-1 text-muted mb-3 d-block"></i>
+          <h5>No booked appointments found</h5>
+          <p class="text-secondary small mb-3">Schedule a consultation with our verified doctors anytime.</p>
+          <a href="{{ url_for('appointment') }}" class="btn btn-gradient rounded-pill px-4">Book Appointment</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

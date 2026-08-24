@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}AI Health Chatbot — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="glass-card p-4">
+        <!-- ── Chat Header ── -->
+        <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom border-secondary">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 rounded-3 bg-info-subtle text-info">
+              <i class="fa-solid fa-robot fs-3"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0">AI Health Assistant</h4>
+              <span class="small text-success d-flex align-items-center gap-1">
+                <span class="p-1 rounded-circle bg-success d-inline-block"></span> Online & Ready
+              </span>
+            </div>
+          </div>
+          <div>
+            <button id="clearChatBtn" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+              <i class="fa-solid fa-trash-can me-1"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Quick Question Suggestions ── -->
+        <div class="mb-3">
+          <span class="small text-secondary me-2 d-block mb-1">💡 Quick topics:</span>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-sm btn-outline-secondary rounded-pill quick-prompt" data-text="I have a fever, headache, and body aches">🤒 Fever & Headache</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill quick-prompt" data-text="What is a normal BMI range?">⚖️ Normal BMI</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill quick-prompt" data-text="Tell me about diet for Diabetes">🥗 Diabetes Diet</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill quick-prompt" data-text="How much water should I drink daily?">💧 Daily Water</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill quick-prompt" data-text="What is healthy blood pressure?">❤️ Normal Blood Pressure</button>
+          </div>
+        </div>
+
+        <!-- ── Chat Messages Container ── -->
+        <div class="chat-container mb-3" id="chatContainer">
+          <!-- Initial AI Welcome Message -->
+          <div class="chat-bubble chat-bubble-ai">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="fa-solid fa-robot text-info"></i>
+              <strong class="small text-info">AI Health Assistant</strong>
+            </div>
+            <p class="mb-0">
+              Hello {{ session.get('user_name', 'there') }}! 👋 I'm your AI Health Assistant. You can describe your symptoms, ask about diseases, request diet plans, or inquire about healthy lifestyle guidelines.
+            </p>
+            <div class="small text-muted mt-2">
+              ⚠️ <em>Note: I provide informational guidance, not medical diagnoses.</em>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Chat Input ── -->
+        <form id="chatForm" class="d-flex gap-2">
+          <input type="text" id="chatInput" class="form-control" placeholder="Ask about symptoms, diseases, diet, or wellness..." autocomplete="off" required>
+          <button type="submit" id="sendBtn" class="btn btn-gradient rounded-pill px-4 d-flex align-items-center gap-2">
+            <span>Send</span> <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

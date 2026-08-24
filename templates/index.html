@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}AI Health Assistant — Intelligent Disease Prediction & Wellness{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <!-- ── Hero Section ────────────────────────────────────────────────── -->
+  <div class="row align-items-center g-5 py-4">
+    <div class="col-lg-7 text-center text-lg-start">
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-darker border border-secondary mb-3">
+        <span class="badge bg-success rounded-pill">AI Powered</span>
+        <span class="small text-light">Machine Learning Health Assistant</span>
+      </div>
+      <h1 class="display-4 fw-extrabold lh-tight mb-4">
+        Predict Diseases, Get <span class="text-gradient">Precautions</span> & Lifestyle Guidance
+      </h1>
+      <p class="lead text-secondary mb-4">
+        Harness intelligent Machine Learning to analyze your symptoms, compute accurate disease probabilities, receive tailored nutrition & lifestyle recommendations, and consult directly with certified medical experts.
+      </p>
+      
+      <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('symptoms') }}" class="btn btn-gradient btn-lg rounded-pill px-4 py-3 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-stethoscope"></i> Check Symptoms Now
+          </a>
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light btn-lg rounded-pill px-4 py-3">
+            <i class="fa-solid fa-gauge"></i> My Dashboard
+          </a>
+        {% else %}
+          <a href="{{ url_for('register') }}" class="btn btn-gradient btn-lg rounded-pill px-4 py-3 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-user-plus"></i> Get Started Free
+          </a>
+          <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg rounded-pill px-4 py-3">
+            <i class="fa-solid fa-right-to-bracket"></i> Patient Login
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Feature Badges -->
+      <div class="row g-3 mt-4 text-start">
+        <div class="col-sm-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-primary-accent fs-5"></i>
+            <span class="small text-light fw-medium">95%+ ML Accuracy</span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-primary-accent fs-5"></i>
+            <span class="small text-light fw-medium">Verified Doctor Chat</span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-primary-accent fs-5"></i>
+            <span class="small text-light fw-medium">Instant Notifications</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="glass-card p-4 p-md-5 border-secondary position-relative">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div class="d-flex align-items-center gap-2">
+            <span class="p-2 rounded-3 bg-success-subtle text-success">
+              <i class="fa-solid fa-brain fs-4"></i>
+            </span>
+            <div>
+              <h5 class="mb-0 fw-bold">Live AI Health Engine</h5>
+              <span class="small text-muted">Real-time Diagnostic Insights</span>
+            </div>
+          </div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Active</span>
+        </div>
+
+        <div class="d-flex flex-column gap-3">
+          <div class="p-3 rounded-3 bg-darker border border-secondary-subtle">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="small fw-semibold text-light">1. Multi-Symptom Analysis</span>
+              <span class="badge bg-success-subtle text-success">25+ Symptoms</span>
+            </div>
+            <p class="small text-muted mb-0">Multi-label classification evaluating disease indicators.</p>
+          </div>
+
+          <div class="p-3 rounded-3 bg-darker border border-secondary-subtle">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="small fw-semibold text-light">2. Precautions & Diet Plan</span>
+              <span class="badge bg-info-subtle text-info">Customized</span>
+            </div>
+            <p class="small text-muted mb-0">Personalized foods to eat, foods to avoid, and safe exercise routines.</p>
+          </div>
+
+          <div class="p-3 rounded-3 bg-darker border border-secondary-subtle">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="small fw-semibold text-light">3. Doctor Consultation & Booking</span>
+              <span class="badge bg-warning-subtle text-warning">Specialists</span>
+            </div>
+            <p class="small text-muted mb-0">Direct 1-on-1 private messaging and verified appointment booking.</p>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-top border-secondary text-center">
+          <span class="badge bg-danger-subtle text-danger p-2 d-block">
+            <i class="fa-solid fa-triangle-exclamation me-1"></i> For informational & preventive guidance only
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Core Modules Grid ───────────────────────────────────────────── -->
+  <div class="py-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold mb-2">Comprehensive Health Modules</h2>
+      <p class="text-secondary">Everything you need for personal wellness and proactive health tracking.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Card 1: Disease Prediction -->
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card glass-card-interactive p-4 h-100 d-flex flex-column">
+          <div class="p-3 rounded-4 bg-success-subtle text-success d-inline-block mb-3 align-self-start">
+            <i class="fa-solid fa-microchip fs-3"></i>
+          </div>
+          <h4 class="fw-bold mb-2">AI Disease Predictor</h4>
+          <p class="text-secondary small flex-grow-1">
+            State-of-the-art machine learning models identify probable conditions based on symptoms with confidence probabilities.
+          </p>
+          <a href="{{ url_for('symptoms') }}" class="text-primary-accent text-decoration-none fw-semibold small d-flex align-items-center gap-1 mt-3">
+            Start Analysis <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: AI Health Chatbot -->
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card glass-card-interactive p-4 h-100 d-flex flex-column">
+          <div class="p-3 rounded-4 bg-info-subtle text-info d-inline-block mb-3 align-self-start">
+            <i class="fa-solid fa-robot fs-3"></i>
+          </div>
+          <h4 class="fw-bold mb-2">AI Health Chatbot</h4>
+          <p class="text-secondary small flex-grow-1">
+            24/7 intelligent conversational assistant to answer wellness queries, decode lab parameters, and flag critical emergencies.
+          </p>
+          <a href="{{ url_for('chatbot') }}" class="text-info text-decoration-none fw-semibold small d-flex align-items-center gap-1 mt-3">
+            Chat with AI <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3: Doctor Consultation -->
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card glass-card-interactive p-4 h-100 d-flex flex-column">
+          <div class="p-3 rounded-4 bg-primary-subtle text-primary d-inline-block mb-3 align-self-start">
+            <i class="fa-solid fa-user-doctor fs-3"></i>
+          </div>
+          <h4 class="fw-bold mb-2">Doctor Consultation</h4>
+          <p class="text-secondary small flex-grow-1">
+            Connect with verified doctors across specialties including Cardiology, Neurology, Pulmonology, and General Medicine.
+          </p>
+          <a href="{{ url_for('doctors') }}" class="text-primary text-decoration-none fw-semibold small d-flex align-items-center gap-1 mt-3">
+            Find Doctors <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 4: Health Profile -->
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card glass-card-interactive p-4 h-100 d-flex flex-column">
+          <div class="p-3 rounded-4 bg-warning-subtle text-warning d-inline-block mb-3 align-self-start">
+            <i class="fa-solid fa-heart-circle-bolt fs-3"></i>
+          </div>
+          <h4 class="fw-bold mb-2">Health Profile & BMI</h4>
+          <p class="text-secondary small flex-grow-1">
+            Auto-calculate BMI, track blood pressure, resting heart rate, blood sugar, allergies, medications, and lifestyle habits.
+          </p>
+          <a href="{{ url_for('profile') }}" class="text-warning text-decoration-none fw-semibold small d-flex align-items-center gap-1 mt-3">
+            Manage Profile <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 5: Lifestyle & Diet -->
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card glass-card-interactive p-4 h-100 d-flex flex-column">
+          <div class="p-3 rounded-4 bg-danger-subtle text-danger d-inline-block mb-3 align-self-start">
+            <i class="fa-solid fa-apple-whole fs-3"></i>
+          </div>
+          <h4 class="fw-bold mb-2">Precautions & Diet Plan</h4>
+          <p class="text-secondary small flex-grow-1">
+            Evidence-backed diet recipes, harmful food warnings, and tailored physical activity plans for over 15 medical conditions.
+          </p>
+          <a href="{{ url_for('symptoms') }}" class="text-danger text-decoration-none fw-semibold small d-flex align-items-center gap-1 mt-3">
+            View Recommendations <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 6: Appointments -->
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card glass-card-interactive p-4 h-100 d-flex flex-column">
+          <div class="p-3 rounded-4 bg-secondary-subtle text-light d-inline-block mb-3 align-self-start">
+            <i class="fa-regular fa-calendar-check fs-3"></i>
+          </div>
+          <h4 class="fw-bold mb-2">Instant Booking & Email</h4>
+          <p class="text-secondary small flex-grow-1">
+            Schedule clinic and online appointments with instant automated email confirmations and calendar alerts.
+          </p>
+          <a href="{{ url_for('appointment') }}" class="text-light text-decoration-none fw-semibold small d-flex align-items-center gap-1 mt-3">
+            Book Appointment <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

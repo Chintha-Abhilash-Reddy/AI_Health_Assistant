@@ -1,0 +1,43 @@
+{
+  "appId": "com.aihealth.assistant",
+  "appName": "AI Health Assistant",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "includePlugins": [
+    "@capacitor/core",
+    "@capacitor/android",
+    "@capacitor/ios",
+    "@capacitor/device",
+    "@capacitor/network",
+    "@capacitor/app",
+    "@capacitor/keyboard",
+    "@capacitor/status-bar",
+    "@capacitor-community/app-launcher"
+  ],
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 3000,
+      "launchAutoHide": true,
+      "backgroundColor": "#00b09b",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "iosShowSpinner": false,
+      "spinnerColor": "#999999"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#00b09b",
+      "overlaysWebView": false
+    },
+    "Keyboard": {
+      "resize": "native",
+      "style": "dark"
+    }
+  },
+  "server": {
+    "androidScheme": "https",
+    "url": "https://app.example.com",
+    "cleartext": []
+  }
+}

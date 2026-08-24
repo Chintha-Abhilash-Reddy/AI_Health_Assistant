@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Portal Login — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <div class="glass-card p-4 p-md-5 border-info-subtle">
+        <div class="text-center mb-4">
+          <div class="d-inline-flex p-3 rounded-4 bg-info-subtle text-info mb-3">
+            <i class="fa-solid fa-user-doctor fs-2"></i>
+          </div>
+          <h2 class="fw-bold">Doctor Portal</h2>
+          <p class="text-secondary small">Sign in to view assigned patients, appointments, and consultation chats</p>
+        </div>
+
+        <div class="alert alert-info py-2 px-3 small rounded-3 mb-4" role="alert">
+          <i class="fa-solid fa-key me-1"></i> <strong>Demo Credentials:</strong><br>
+          Email: <code>dr.anil@healthapp.com</code><br>
+          Password: <code>password123</code>
+        </div>
+
+        <form method="POST" action="{{ url_for('doctor_login') }}">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-light">Doctor Email</label>
+            <div class="input-group">
+              <span class="input-group-text bg-darker border-secondary text-secondary"><i class="fa-solid fa-envelope"></i></span>
+              <input type="email" class="form-control" name="email" value="dr.anil@healthapp.com" required>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-light">Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-darker border-secondary text-secondary"><i class="fa-solid fa-lock"></i></span>
+              <input type="password" class="form-control" name="password" value="password123" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-gradient w-100 py-3 rounded-pill fw-semibold shadow-sm mb-3">
+            <i class="fa-solid fa-right-to-bracket me-2"></i> Access Doctor Portal
+          </button>
+
+          <div class="text-center">
+            <a href="{{ url_for('login') }}" class="text-secondary small text-decoration-none hover-light">
+              <i class="fa-solid fa-arrow-left me-1"></i> Return to Patient Login
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

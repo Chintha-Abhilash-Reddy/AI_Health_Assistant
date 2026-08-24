@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Download AI Health Assistant - Available on Android, iOS, and Web. Works from any network worldwide.">
+  <meta name="theme-color" content="#0d9488">
+  
+  <title>Download & Install — AI Health Assistant</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --primary-light: #14b8a6;
+      --accent: #38bdf8;
+      --bg-dark: #0a0f1d;
+      --card-bg: #131b2e;
+      --card-border: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #172554 0%, var(--bg-dark) 70%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 30px 15px;
+      margin: 0;
+    }
+    
+    .container-custom {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Header Section */
+    .hero-header {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(19, 27, 46, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      margin-bottom: 35px;
+      border: 1px solid rgba(13, 148, 136, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .brand-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(13, 148, 136, 0.4);
+    }
+    
+    .hero-title {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(13, 148, 136, 0.15);
+      border: 1px solid rgba(20, 184, 166, 0.4);
+      color: #5eead4;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Notice Banner */
+    .network-notice {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px 20px;
+      text-align: center;
+      margin-bottom: 35px;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .network-notice i {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    /* Cards Grid */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 40px;
+    }
+    
+    .platform-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 35px 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .platform-card:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(13, 148, 136, 0.25);
+    }
+
+    .platform-card.highlighted {
+      border: 2px solid var(--primary-light);
+      background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--card-bg) 100%);
+    }
+
+    .smart-os-tag {
+      position: absolute;
+      top: -12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+    }
+    
+    .platform-icon {
+      font-size: 52px;
+      margin-bottom: 16px;
+      color: var(--primary-light);
+    }
+
+    .platform-card h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    
+    .platform-card .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 22px;
+    }
+    
+    .qr-frame {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .qr-frame canvas,
+    .qr-frame img {
+      max-width: 200px;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    
+    .qr-label {
+      color: #475569;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-group-custom {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .btn-store {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+    
+    .btn-primary-store {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(13, 148, 136, 0.3);
+    }
+    
+    .btn-primary-store:hover {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+      color: #fff;
+      transform: scale(1.02);
+    }
+    
+    .btn-outline-store {
+      background: rgba(30, 41, 59, 0.5);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+    }
+    
+    .btn-outline-store:hover {
+      background: rgba(51, 65, 85, 0.8);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Actions & Sharing */
+    .global-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .btn-action-lg {
+      padding: 14px 28px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: none;
+    }
+
+    .btn-share {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #fff;
+    }
+    .btn-share:hover {
+      background: #0284c7;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-open-web {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      text-decoration: none;
+    }
+    .btn-open-web:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Features Grid */
+    .features-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 35px 30px;
+      margin-bottom: 40px;
+    }
+
+    .features-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .features-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      padding: 0;
+      list-style: none;
+      margin: 0;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(30, 41, 59, 0.4);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.95rem;
+      color: #e2e8f0;
+    }
+
+    .feature-item i {
+      color: var(--primary-light);
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    /* Toast Alert Notification */
+    .custom-toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #0f172a;
+      border: 1px solid var(--primary);
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      .platform-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-custom">
+
+    <!-- Top Header -->
+    <header class="hero-header">
+      <div class="brand-icon-wrapper">
+        <i class="fas fa-stethoscope"></i>
+      </div>
+      <div class="hero-badge">
+        <i class="fas fa-bolt"></i> Production Ready Application
+      </div>
+      <h1 class="hero-title">Download AI Health Assistant</h1>
+      <p class="hero-subtitle">
+        Access intelligent clinical symptom analysis, 24/7 AI chatbot consultations, 1-click emergency SOS dispatch, and doctor appointments from any device worldwide.
+      </p>
+    </header>
+
+    <!-- Public Internet Access Banner -->
+    <div class="network-notice">
+      <i class="fas fa-globe"></i>
+      <span><strong>Scan with your phone camera to install.</strong> Accessible from any Wi-Fi, 4G/5G mobile network without localhost restrictions.</span>
+    </div>
+
+    <!-- Platform Cards Grid -->
+    <div class="platform-grid">
+
+      <!-- Android (Google Play Store) -->
+      <div class="platform-card" id="card-android">
+        <span class="smart-os-tag d-none" id="tag-android">Detected Device</span>
+        <div class="platform-icon">
+          <i class="fab fa-android"></i>
+        </div>
+        <h2>Android</h2>
+        <p class="subtitle">Google Play Store &amp; Native App</p>
+        
+        <div class="qr-frame">
+          <div id="qr-android"></div>
+          <div class="qr-label">Scan for Android</div>
+        </div>
+        
+        <div class="btn-group-custom">
+          <a href="{{ android_store_url }}" class="btn-store btn-primary-store" id="btn-android-store" target="_blank" rel="noopener">
+            <i class="fab fa-google-play"></i> Get on Google Play
+          </a>
+          <button class="btn-store btn-outline-store" onclick="copyLink('{{ android_store_url }}')">
+            <i class="fas fa-copy"></i> Copy Store Link
+          </button>
+        </div>
+      </div>
+
+      <!-- iOS (Apple App Store) -->
+      <div class="platform-card" id="card-ios">
+        <span class="smart-os-tag d-none" id="tag-ios">Detected Device</span>
+        <div class="platform-icon">
+          <i class="fab fa-apple"></i>
+        </div>
+        <h2>iPhone &amp; iPad</h2>
+        <p class="subtitle">Apple App Store &amp; TestFlight</p>
+        
+        <div class="qr-frame">
+          <div id="qr-ios"></div>
+          <div class="qr-label">Scan for iOS</div>
+        </div>
+        
+        <div class="btn-group-custom">
+          <a href="{{ ios_store_url }}" class="btn-store btn-primary-store" id="btn-ios-store" target="_blank" rel="noopener">
+            <i class="fab fa-apple"></i> Download on App Store
+          </a>
+          <button class="btn-store btn-outline-store" onclick="copyLink('{{ ios_store_url }}')">
+            <i class="fas fa-copy"></i> Copy Store Link
+          </button>
+        </div>
+      </div>
+
+      <!-- Web / Desktop (PWA) -->
+      <div class="platform-card" id="card-web">
+        <span class="smart-os-tag d-none" id="tag-web">Desktop &amp; Browser</span>
+        <div class="platform-icon">
+          <i class="fas fa-laptop-medical"></i>
+        </div>
+        <h2>Web Application</h2>
+        <p class="subtitle">Instant Browser &amp; PWA Access</p>
+        
+        <div class="qr-frame">
+          <div id="qr-web"></div>
+          <div class="qr-label">Scan to Open Web</div>
+        </div>
+        
+        <div class="btn-group-custom">
+          <a href="{{ web_url }}" class="btn-store btn-primary-store">
+            <i class="fas fa-globe"></i> Open Web Application
+          </a>
+          <button class="btn-store btn-outline-store" onclick="copyLink('{{ web_url }}')">
+            <i class="fas fa-copy"></i> Copy Web URL
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Global Action Buttons -->
+    <div class="global-actions">
+      <button class="btn-action-lg btn-share" onclick="shareApp()">
+        <i class="fas fa-share-nodes"></i> Share Application
+      </button>
+      <a href="{{ web_url }}" class="btn-action-lg btn-open-web">
+        <i class="fas fa-arrow-up-right-from-square"></i> Open Live Portal
+      </a>
+    </div>
+
+    <!-- Key App Features -->
+    <div class="features-card">
+      <h3>✨ Complete Clinical Suite Highlights</h3>
+      <ul class="features-list">
+        <li class="feature-item"><i class="fas fa-brain"></i> AI Disease &amp; Symptom Prediction</li>
+        <li class="feature-item"><i class="fas fa-user-doctor"></i> Specialist Doctor Consultations</li>
+        <li class="feature-item"><i class="fas fa-robot"></i> 24/7 Intelligent AI Health Bot</li>
+        <li class="feature-item"><i class="fas fa-truck-medical"></i> 1-Click 108 Ambulance SOS</li>
+        <li class="feature-item"><i class="fas fa-heart-pulse"></i> BMI &amp; Vital Signs Tracking</li>
+        <li class="feature-item"><i class="fas fa-file-pdf"></i> Medical History &amp; PDF Reports</li>
+        <li class="feature-item"><i class="fas fa-calendar-check"></i> Automated Appointment Booking</li>
+        <li class="feature-item"><i class="fas fa-shield-halves"></i> HIPAA/Data Safety Ready</li>
+      </ul>
+    </div>
+
+    <!-- Medical Disclaimer & Footer -->
+    <footer class="footer">
+      <p class="mb-2">
+        <i class="fas fa-shield-virus text-warning me-1"></i>
+        <strong>Medical Disclaimer:</strong> AI predictions are intended for informational guidance and do not replace certified medical examination. Consult a qualified doctor for medical emergencies.
+      </p>
+      <p class="mb-0 text-muted">
+        © {{ year }} AI Health Assistant. Cross-platform production release. All rights reserved.
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- Toast Alert -->
+  <div class="custom-toast" id="toast">
+    <i class="fas fa-check-circle text-success"></i>
+    <span id="toast-msg">Link copied to clipboard!</span>
+  </div>
+
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <script>
+    // Configuration from backend context
+    const appConfig = {
+      androidUrl: "{{ android_store_url }}",
+      iosUrl: "{{ ios_store_url }}",
+      webUrl: "{{ web_url }}"
+    };
+
+    // Render High-Contrast QR Codes
+    function renderQRCodes() {
+      const qrSettings = {
+        width: 200,
+        height: 200,
+        colorDark: "#0a0f1d",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      };
+
+      // Android QR Code
+      const qrAndroidEl = document.getElementById("qr-android");
+      if (qrAndroidEl) {
+        qrAndroidEl.innerHTML = "";
+        new QRCode(qrAndroidEl, { ...qrSettings, text: appConfig.androidUrl });
+      }
+
+      // iOS QR Code
+      const qrIosEl = document.getElementById("qr-ios");
+      if (qrIosEl) {
+        qrIosEl.innerHTML = "";
+        new QRCode(qrIosEl, { ...qrSettings, text: appConfig.iosUrl });
+      }
+
+      // Web QR Code
+      const qrWebEl = document.getElementById("qr-web");
+      if (qrWebEl) {
+        qrWebEl.innerHTML = "";
+        new QRCode(qrWebEl, { ...qrSettings, text: appConfig.webUrl });
+      }
+    }
+
+    // Show Custom Toast
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      const toastMsg = document.getElementById("toast-msg");
+      toastMsg.innerText = message;
+      toast.style.display = "flex";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+
+    // Clipboard Copy Helper
+    function copyLink(url) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast("✓ Link copied to clipboard!");
+        }).catch(() => {
+          fallbackCopy(url);
+        });
+      } else {
+        fallbackCopy(url);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast("✓ Link copied to clipboard!");
+      } catch (err) {
+        prompt("Copy this URL:", text);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Web Share API with Fallback
+    async function shareApp() {
+      const shareData = {
+        title: "AI Health Assistant",
+        text: "Download AI Health Assistant for instant AI disease analysis, emergency 108 ambulance dispatch, and doctor appointments:",
+        url: appConfig.webUrl
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            copyLink(appConfig.webUrl);
+          }
+        }
+      } else {
+        copyLink(appConfig.webUrl);
+      }
+    }
+
+    // Auto-detect User OS & Highlight Card
+    function detectAndHighlightOS() {
+      const ua = navigator.userAgent.toLowerCase();
+      const isAndroid = /android/.test(ua);
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+
+      if (isAndroid) {
+        const card = document.getElementById("card-android");
+        const tag = document.getElementById("tag-android");
+        if (card) card.classList.add("highlighted");
+        if (tag) tag.classList.remove("d-none");
+      } else if (isIOS) {
+        const card = document.getElementById("card-ios");
+        const tag = document.getElementById("tag-ios");
+        if (card) card.classList.add("highlighted");
+        if (tag) tag.classList.remove("d-none");
+      } else {
+        const card = document.getElementById("card-web");
+        const tag = document.getElementById("tag-web");
+        if (card) card.classList.add("highlighted");
+        if (tag) tag.classList.remove("d-none");
+      }
+    }
+
+    // Initialize on DOM load
+    window.addEventListener("DOMContentLoaded", () => {
+      renderQRCodes();
+      detectAndHighlightOS();
+    });
+  </script>
+</body>
+</html>

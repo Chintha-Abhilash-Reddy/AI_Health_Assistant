@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Book Doctor Appointment — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row g-4">
+    <!-- ── Booking Form Column ── -->
+    <div class="col-lg-5">
+      <div class="glass-card p-4">
+        <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom border-secondary">
+          <div class="p-3 rounded-4 bg-primary-subtle text-primary">
+            <i class="fa-regular fa-calendar-plus fs-3"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0">Book Appointment</h4>
+            <span class="small text-secondary">Schedule clinic or online visit</span>
+          </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('appointment') }}">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-light">Select Doctor <span class="text-danger">*</span></label>
+            <select class="form-select" name="doctor_id" required>
+              <option value="">Choose a specialist...</option>
+              {% for doc in doctors %}
+                <option value="{{ doc.id }}">{{ doc.name }} ({{ doc.specialization }})</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold text-light">Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="appointment_date" required min="{{ now.strftime('%Y-%m-%d') }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold text-light">Time Slot <span class="text-danger">*</span></label>
+              <select class="form-select" name="appointment_time" required>
+                <option value="">Select Time</option>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="02:00 PM">02:00 PM</option>
+                <option value="03:30 PM">03:30 PM</option>
+                <option value="05:00 PM">05:00 PM</option>
+                <option value="06:30 PM">06:30 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-light">Reason for Consultation</label>
+            <textarea class="form-control" name="reason" rows="3" placeholder="Briefly describe your symptoms or reason for visit..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-gradient w-100 py-3 rounded-pill fw-semibold shadow-sm">
+            <i class="fa-solid fa-calendar-check me-2"></i> Confirm Booking
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── Scheduled Appointments List Column ── -->
+    <div class="col-lg-7">
+      <div class="glass-card p-4 h-100">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-regular fa-calendar-check text-info fs-5"></i>
+            <h4 class="fw-bold mb-0">My Booked Appointments</h4>
+          </div>
+          <span class="badge bg-darker border border-secondary text-secondary">{{ appointments|length }} Total</span>
+        </div>
+
+        {% if appointments %}
+          <div class="d-flex flex-column gap-3">
+            {% for appt in appointments %}
+              <div class="p-3 rounded-3 bg-darker border border-secondary-subtle">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="fw-bold text-light mb-1">{{ appt.doctor_name }}</h5>
+                    <span class="badge bg-info-subtle text-info mb-2">{{ appt.specialization }}</span>
+                    <div class="small text-secondary">
+                      <i class="fa-regular fa-calendar me-1"></i> <strong>{{ appt.appointment_date }}</strong> at <strong>{{ appt.appointment_time }}</strong>
+                    </div>
+                    {% if appt.reason %}
+                      <div class="small text-muted mt-1">Reason: {{ appt.reason }}</div>
+                    {% endif %}
+                  </div>
+                  <div class="text-end">
+                    <span class="badge {% if appt.status == 'Confirmed' %}bg-success-subtle text-success{% elif appt.status == 'Pending' %}bg-warning-subtle text-warning{% elif appt.status == 'Completed' %}bg-info-subtle text-info{% else %}bg-danger-subtle text-danger{% endif %} px-3 py-2 rounded-pill">
+                      {{ appt.status }}
+                    </span>
+                    <div class="mt-2">
+                      <a href="{{ url_for('patient_chat', doctor_id=appt.doctor_id) }}" class="btn btn-sm btn-outline-info rounded-pill">
+                        <i class="fa-solid fa-comments me-1"></i> Message Doctor
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-5 text-secondary">
+            <i class="fa-regular fa-calendar-plus fs-1 mb-3 d-block text-muted"></i>
+            <h6>No appointments booked yet</h6>
+            <p class="small mb-0">Select a doctor and available date on the left to schedule your first consultation.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

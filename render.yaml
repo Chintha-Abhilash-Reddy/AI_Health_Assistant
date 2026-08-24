@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: ai-health-assistant
+    runtime: python
+    buildCommand: pip install -r requirements.txt gunicorn
+    startCommand: gunicorn app:app --workers 4 --threads 2 --timeout 120
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PUBLIC_WEB_URL
+        sync: false
+      - key: API_BASE_URL
+        sync: false
+      - key: ANDROID_STORE_URL
+        value: https://play.google.com/store/apps/details?id=com.health.aiassistant
+      - key: IOS_STORE_URL
+        value: https://apps.apple.com/app/ai-health-assistant/id6739271845
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: EMAIL_DEV_MODE
+        value: "true"

@@ -1,0 +1,307 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   AI Health Assistant — Clean Medical White & Solid Black Text System
+   Pure White Background, Crisp Dark/Black Text, Stethoscope Watermark Pattern
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg-main: #ffffff;
+  --bg-white: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  
+  --border-color: #cbd5e1;
+  --border-hover: #0d9488;
+
+  --primary-accent: #0d9488;
+  --primary-dark: #0f766e;
+  --primary-gradient: linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+  --secondary-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  --danger-gradient: linear-gradient(135deg, #dc2626 0%, #e11d48 100%);
+  --warning-gradient: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  --success-gradient: linear-gradient(135deg, #16a34a 0%, #059669 100%);
+
+  --text-dark: #0f172a;
+  --text-body: #1e293b;
+  --text-black: #000000;
+  --text-muted: #475569;
+
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  overflow-x: hidden;
+  /* Clean White background with subtle stethoscope watermark */
+  background-image: 
+    radial-gradient(at 10% 10%, rgba(13, 148, 136, 0.04) 0px, transparent 50%),
+    radial-gradient(at 90% 90%, rgba(37, 99, 235, 0.04) 0px, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100' opacity='0.04'%3E%3Cpath d='M35 15 v20 a15 15 0 0 0 30 0 v-20 m-25 0 a5 5 0 0 1 10 0 m10 0 a5 5 0 0 1 10 0 M50 50 v15 a15 15 0 0 1 -30 0 v-5 a10 10 0 0 1 20 0 v5 M50 65 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0' fill='none' stroke='%230f172a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
+/* Force all headings and text elements to clear dark/black color */
+h1, h2, h3, h4, h5, h6, .brand-text, p, span, label, div, li {
+  color: #0f172a;
+}
+
+.text-dark {
+  color: #0f172a !important;
+}
+
+.text-black {
+  color: #000000 !important;
+}
+
+.text-muted, .text-secondary {
+  color: #475569 !important;
+}
+
+/* Override legacy text-light or white text classes to dark */
+.text-light, .text-white {
+  color: #0f172a !important;
+}
+
+/* ── Typography & Gradients ──────────────────────────────────────────────── */
+
+.text-gradient {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: var(--secondary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-primary-accent {
+  color: var(--primary-accent) !important;
+}
+
+/* ── Navbar & Cards ──────────────────────────────────────────────────────── */
+
+.glass-navbar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.navbar .nav-link {
+  color: #1e293b !important;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover, .navbar .nav-link.active {
+  color: var(--primary-accent) !important;
+  font-weight: 600;
+}
+
+.glass-card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-accent) !important;
+  box-shadow: 0 15px 35px rgba(13, 148, 136, 0.12);
+}
+
+.bg-dark, .bg-darker {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* ── Form Inputs & Labels ────────────────────────────────────────────────── */
+
+.form-control, .form-select {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  border-radius: 0.75rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+}
+
+.form-control::placeholder {
+  color: #94a3b8 !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-accent) !important;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
+  color: #0f172a !important;
+}
+
+.form-label {
+  color: #0f172a !important;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 0.92rem;
+}
+
+/* ── Symptom Selection Cards & Labels ────────────────────────────────────── */
+
+.symptom-checkbox-card {
+  background: #ffffff !important;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #0f172a !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.symptom-checkbox-card:hover {
+  border-color: var(--primary-accent);
+  background-color: #f0fdfa !important;
+}
+
+.symptom-name {
+  color: #0f172a !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.symptom-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--primary-accent);
+  cursor: pointer;
+}
+
+.symptom-input:checked + .symptom-name,
+.symptom-checkbox-card:has(.symptom-input:checked) {
+  border-color: var(--primary-accent) !important;
+  background-color: #f0fdfa !important;
+}
+
+/* ── Metric Cards ────────────────────────────────────────────────────────── */
+
+.metric-card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569 !important;
+}
+
+.metric-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+
+.btn-gradient, .btn-primary-gradient {
+  background: var(--primary-gradient);
+  border: none;
+  color: #ffffff !important;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  padding: 0.7rem 1.5rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(13, 148, 136, 0.25);
+}
+
+.btn-gradient:hover, .btn-primary-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(13, 148, 136, 0.35);
+  color: #ffffff !important;
+}
+
+.btn-gradient span, .btn-primary-gradient span, .btn-gradient i, .btn-primary-gradient i {
+  color: #ffffff !important;
+}
+
+.btn-danger, .btn-danger-gradient {
+  background: var(--danger-gradient) !important;
+  border: none;
+  color: #ffffff !important;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.btn-danger *, .btn-danger-gradient * {
+  color: #ffffff !important;
+}
+
+.btn-danger:hover, .btn-danger-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.35);
+  color: #ffffff !important;
+}
+
+.btn-outline-light {
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+  background: #ffffff !important;
+}
+
+.btn-outline-light:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+/* ── Badges & Alerts ─────────────────────────────────────────────────────── */
+
+.badge-soft-primary {
+  background-color: rgba(13, 148, 136, 0.12) !important;
+  color: var(--primary-dark) !important;
+  border: 1px solid rgba(13, 148, 136, 0.25);
+}
+
+.badge-soft-danger {
+  background-color: rgba(220, 38, 38, 0.1) !important;
+  color: #dc2626 !important;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+}
+
+.badge-soft-success {
+  background-color: rgba(22, 163, 74, 0.1) !important;
+  color: #16a34a !important;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+}
+
+/* ── Pulse Animation for Emergency SOS ───────────────────────────────────── */
+
+@keyframes sos-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  70% { box-shadow: 0 0 0 12px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+.pulse-sos {
+  animation: sos-pulse 1.8s infinite;
+}
+
+/* ── Tables & Lists ──────────────────────────────────────────────────────── */
+
+.table {
+  color: #0f172a !important;
+}
+
+.table th, .table td {
+  color: #0f172a !important;
+  background-color: transparent !important;
+  border-color: #e2e8f0 !important;
+}

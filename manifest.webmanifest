@@ -1,0 +1,91 @@
+{
+  "name": "AI Health Assistant - Disease Prediction & Wellness",
+  "short_name": "AI Health Assistant",
+  "description": "Intelligent disease prediction, health recommendations, and doctor consultation powered by AI",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#00b09b",
+  "background_color": "#1a1a1a",
+  "prefer_related_applications": false,
+  "categories": ["medical", "health", "productivity"],
+  "screenshots": [
+    {
+      "src": "/static/images/screenshot-mobile-1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/static/images/screenshot-desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/static/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Check Symptoms",
+      "short_name": "Symptoms",
+      "description": "Analyze your symptoms with AI",
+      "url": "/symptoms",
+      "icons": [
+        {
+          "src": "/static/images/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Chat with Doctors",
+      "short_name": "Doctors",
+      "description": "Connect with medical professionals",
+      "url": "/doctors",
+      "icons": [
+        {
+          "src": "/static/images/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "AI Chatbot",
+      "short_name": "Chatbot",
+      "description": "24/7 health advice",
+      "url": "/chatbot",
+      "icons": [
+        {
+          "src": "/static/images/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

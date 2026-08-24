@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block title %}AI Symptom Predictor — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="glass-card p-4 p-md-5 bg-white shadow-sm">
+        <div class="text-center mb-4">
+          <div class="d-inline-flex p-3 rounded-4 bg-success-subtle text-success mb-3">
+            <i class="fa-solid fa-stethoscope fs-2"></i>
+          </div>
+          <h2 class="fw-bold text-dark">AI Symptom Analysis &amp; Prediction</h2>
+          <p class="text-secondary small">Select your current symptoms and optional vitals to run the Machine Learning predictive model.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('predict') }}" id="symptomForm" enctype="multipart/form-data">
+          <!-- Search filter for symptoms -->
+          <div class="mb-4">
+            <div class="input-group">
+              <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input type="text" id="symptomSearch" class="form-control bg-white text-dark" placeholder="Search symptoms (e.g. fever, headache, cough)...">
+            </div>
+          </div>
+
+          <!-- Symptom Grid -->
+          <label class="form-label fw-bold text-dark mb-3 d-flex justify-content-between align-items-center">
+            <span><i class="fa-solid fa-square-check text-primary-accent me-2"></i> Select Symptoms (Check all that apply):</span>
+            <span class="badge bg-secondary-subtle text-dark border" id="selectedCountBadge">0 Selected</span>
+          </label>
+
+          <div class="row g-3 mb-5" id="symptomContainer">
+            {% for key, label in symptoms %}
+              <div class="col-md-4 col-sm-6 symptom-item" data-name="{{ label.lower() }}">
+                <label class="symptom-checkbox-card d-flex align-items-center gap-3 p-3 bg-white border">
+                  <input type="checkbox" name="{{ key }}" value="1" class="symptom-input">
+                  <span class="symptom-name fw-bold text-dark">{{ label }}</span>
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- ── Additional Health Metrics Section ── -->
+          <div class="p-4 rounded-4 bg-light border mb-4">
+            <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-sliders me-2 text-primary"></i> Additional Clinical Parameters (Optional)</h5>
+            <div class="row g-3">
+              <div class="col-md-3 col-6">
+                <label class="form-label small fw-semibold text-dark">Symptom Duration</label>
+                <select class="form-select bg-white text-dark" name="duration">
+                  <option value="Less than 24 hours">Less than 24 hours</option>
+                  <option value="24 hours" selected>24 hours (1 Day)</option>
+                  <option value="24-48 hours">24–48 hours (1–2 Days)</option>
+                  <option value="3-5 days">3–5 days</option>
+                  <option value="1-2 weeks">1–2 weeks</option>
+                  <option value="More than 2 weeks">More than 2 weeks</option>
+                </select>
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small fw-semibold text-dark">Severity</label>
+                <select class="form-select bg-white text-dark" name="severity">
+                  <option value="Mild">Mild</option>
+                  <option value="Moderate" selected>Moderate</option>
+                  <option value="Severe">Severe (Risky)</option>
+                </select>
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small fw-semibold text-dark">Body Temp (°F)</label>
+                <input type="number" step="0.1" class="form-control bg-white text-dark" name="temperature" placeholder="e.g. 101.2">
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small fw-semibold text-dark">Blood Pressure</label>
+                <input type="text" class="form-control bg-white text-dark" name="blood_pressure" placeholder="e.g. 130/85">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Heart Rate (BPM)</label>
+                <input type="number" class="form-control bg-white text-dark" name="heart_rate" placeholder="e.g. 85">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Additional Observations</label>
+                <input type="text" class="form-control bg-white text-dark" name="additional_notes" placeholder="e.g. Worse in the evening, chills at night">
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Medical Lab Report & Camera Upload ── -->
+          <div class="p-4 rounded-4 bg-light border mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold text-dark mb-0">
+                <i class="fa-solid fa-file-waveform me-2 text-danger"></i> Attach Medical Lab Report / Prescription
+              </h5>
+              <span class="badge bg-secondary-subtle text-dark border">Optional</span>
+            </div>
+            <p class="small text-muted mb-3">Upload your lab test report, blood report, or snap a photo directly using your device camera.</p>
+            
+            <div class="row g-3 align-items-center">
+              <div class="col-md-7">
+                <label class="form-label small fw-semibold text-dark">Upload Document / Image (PDF, PNG, JPG)</label>
+                <input type="file" name="report_file" id="reportFileInput" class="form-control bg-white text-dark" accept=".pdf,image/*">
+              </div>
+              <div class="col-md-5">
+                <label class="form-label small fw-semibold text-dark">Or Live Camera Capture</label>
+                <div class="d-grid">
+                  <button type="button" class="btn btn-outline-dark fw-bold d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#cameraModal" onclick="startCamera()">
+                    <i class="fa-solid fa-camera text-danger"></i> Take Photo with Camera
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preview Card -->
+            <div id="cameraPreviewContainer" class="mt-3 p-3 bg-white rounded-3 border d-none">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <img id="cameraPreviewImg" src="" alt="Snapshot preview" style="max-height: 70px; border-radius: 6px; border: 1px solid #ccc;">
+                  <div>
+                    <span class="badge bg-success-subtle text-success border small mb-1"><i class="fa-solid fa-check me-1"></i> Camera Snapshot Attached</span>
+                    <div class="small text-muted" id="cameraSnapshotName">snapshot.jpg</div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCameraSnapshot()">
+                  <i class="fa-solid fa-trash"></i> Remove
+                </button>
+              </div>
+              <input type="hidden" name="camera_image" id="cameraImageInput" value="">
+            </div>
+          </div>
+
+          <!-- ── SMS, WhatsApp & Report Notifications ── -->
+          <div class="p-4 rounded-4 bg-light border mb-4">
+            <h5 class="fw-bold text-dark mb-3">
+              <i class="fa-solid fa-bell me-2 text-danger"></i> Instant Alerts (SMS, WhatsApp &amp; Email)
+            </h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">
+                  <i class="fa-solid fa-mobile-screen me-1 text-success"></i>
+                  Mobile Number for Alerts
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fa-solid fa-mobile-screen text-success"></i></span>
+                  <input type="tel" name="mobile_number" class="form-control bg-white text-dark"
+                         placeholder="Enter mobile number (e.g. 9876543210)"
+                         value="{{ user.phone if user and user.phone else '' }}">
+                </div>
+                <small class="text-muted">SMS, WhatsApp link &amp; doctor alerts will be formatted for this number.</small>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 bg-white border h-100 d-flex flex-column justify-content-center gap-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="send_sms_report" id="sendSmsReport" value="1" checked>
+                    <label class="form-check-label small fw-semibold text-dark" for="sendSmsReport">
+                      <i class="fa-solid fa-sms me-1 text-success"></i> Send SMS Diagnosis &amp; Tablet Alert
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="send_whatsapp_report" id="sendWhatsappReport" value="1" checked>
+                    <label class="form-check-label small fw-semibold text-dark" for="sendWhatsappReport">
+                      <i class="fa-brands fa-whatsapp me-1 text-success fw-bold"></i> Generate 1-Click WhatsApp Message
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="send_email_report" id="sendEmailReport" value="1" checked>
+                    <label class="form-check-label small fw-semibold text-dark" for="sendEmailReport">
+                      <i class="fa-solid fa-envelope me-1 text-primary"></i> Send Full Diagnostic Report to Email
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medical Disclaimer Box -->
+          <div class="alert alert-warning d-flex align-items-center gap-3 rounded-3 mb-4" role="alert">
+            <i class="fa-solid fa-shield-halved fs-3 text-warning"></i>
+            <div class="small text-dark">
+              <strong>Medical Disclaimer:</strong> This machine learning prediction model is designed solely for educational, informational, and preventive awareness. If high risk symptoms are detected, you will be alerted to contact a doctor immediately.
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary-gradient btn-lg rounded-pill px-5 py-3 fw-bold d-flex align-items-center gap-2 shadow text-white">
+              <i class="fa-solid fa-microchip"></i> Run AI Disease Prediction &amp; Get Report
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Camera Snapshot Modal ── -->
+<div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="cameraModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header bg-dark text-white border-0">
+        <h5 class="modal-title fw-bold" id="cameraModalLabel">
+          <i class="fa-solid fa-camera me-2 text-danger"></i> Capture Report / Medical Document
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="stopCamera()"></button>
+      </div>
+      <div class="modal-body text-center p-4">
+        <div class="position-relative d-inline-block rounded-3 overflow-hidden border bg-black mb-3" style="max-width: 100%;">
+          <video id="webcamVideo" autoplay playsinline style="width: 100%; max-height: 320px; object-fit: cover;"></video>
+          <canvas id="snapshotCanvas" class="d-none"></canvas>
+        </div>
+        <div id="cameraStatus" class="small text-muted mb-3">Position your prescription or lab test report in front of the lens.</div>
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" class="btn btn-danger btn-lg rounded-pill px-4 fw-bold shadow" onclick="takeSnapshot()">
+            <i class="fa-solid fa-circle-dot me-2"></i> Capture Snapshot
+          </button>
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal" onclick="stopCamera()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let videoStream = null;
+
+  async function startCamera() {
+    const video = document.getElementById('webcamVideo');
+    const status = document.getElementById('cameraStatus');
+    try {
+      videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+      video.srcObject = videoStream;
+      status.textContent = "Camera active. Hold the document steady and click Capture.";
+    } catch (err) {
+      status.textContent = "Camera access unavailable: " + err.message + ". You can use file upload instead.";
+    }
+  }
+
+  function stopCamera() {
+    if (videoStream) {
+      videoStream.getTracks().forEach(track => track.stop());
+      videoStream = null;
+    }
+  }
+
+  function takeSnapshot() {
+    const video = document.getElementById('webcamVideo');
+    const canvas = document.getElementById('snapshotCanvas');
+    if (!video.videoWidth) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+    document.getElementById('cameraImageInput').value = dataUrl;
+    document.getElementById('cameraPreviewImg').src = dataUrl;
+    document.getElementById('cameraPreviewContainer').classList.remove('d-none');
+    
+    stopCamera();
+    const modalEl = document.getElementById('cameraModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+  }
+
+  function removeCameraSnapshot() {
+    document.getElementById('cameraImageInput').value = "";
+    document.getElementById('cameraPreviewImg').src = "";
+    document.getElementById('cameraPreviewContainer').classList.add('d-none');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('symptomSearch');
+    const symptomItems = document.querySelectorAll('.symptom-item');
+    const checkboxes = document.querySelectorAll('.symptom-input');
+    const countBadge = document.getElementById('selectedCountBadge');
+
+    // Filter symptoms on typing
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      symptomItems.forEach(item => {
+        const name = item.getAttribute('data-name');
+        if (name.includes(term)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+
+    // Update selected count & styling
+    function updateSelectedCount() {
+      let count = 0;
+      checkboxes.forEach(cb => {
+        const card = cb.closest('.symptom-checkbox-card');
+        if (cb.checked) {
+          count++;
+          card.classList.add('checked');
+        } else {
+          card.classList.remove('checked');
+        }
+      });
+      countBadge.textContent = `${count} Selected`;
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', updateSelectedCount);
+    });
+  });
+</script>
+{% endblock %}
+

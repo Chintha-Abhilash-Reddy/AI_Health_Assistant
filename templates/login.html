@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Login — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <div class="glass-card p-4 p-md-5 bg-white shadow-sm">
+        <div class="text-center mb-4">
+          <div class="d-inline-flex p-3 rounded-4 bg-primary-subtle text-primary mb-3">
+            <i class="fa-solid fa-right-to-bracket fs-2"></i>
+          </div>
+          <h2 class="fw-bold text-dark">Patient Login</h2>
+          <p class="text-secondary small">Access your personalized health records and AI tools</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('login') }}">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Email Address</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-envelope"></i></span>
+              <input type="email" class="form-control bg-white text-dark" name="email" placeholder="name@example.com" value="john@example.com" required>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-dark">Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-lock"></i></span>
+              <input type="password" class="form-control bg-white text-dark" name="password" placeholder="••••••••" value="password123" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary-gradient w-100 py-3 rounded-pill fw-semibold shadow-sm mb-3 text-white">
+            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i> Sign In
+          </button>
+
+          <div class="text-center text-secondary small mb-3">
+            Don't have an account? <a href="{{ url_for('register') }}" class="text-primary-accent text-decoration-none fw-bold">Register here</a>
+          </div>
+
+          <hr class="my-3">
+
+          <div class="text-center">
+            <a href="{{ url_for('doctor_login') }}" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+              <i class="fa-solid fa-user-doctor me-1"></i> Are you a Doctor? Click here
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account — AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="glass-card p-4 p-md-5 bg-white shadow-sm">
+        <div class="text-center mb-4">
+          <div class="d-inline-flex p-3 rounded-4 bg-success-subtle text-success mb-3">
+            <i class="fa-solid fa-user-plus fs-2"></i>
+          </div>
+          <h2 class="fw-bold text-dark">Create Patient Account</h2>
+          <p class="text-secondary small">Register to track health metrics, predict diseases, and talk to doctors</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('register') }}" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Full Name <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-user"></i></span>
+              <input type="text" class="form-control bg-white text-dark" name="full_name" placeholder="John Doe" required>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold text-dark">Age</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-cake-candles"></i></span>
+                <input type="number" class="form-control bg-white text-dark" name="age" placeholder="25" min="1" max="120">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold text-dark">Gender</label>
+              <select class="form-select bg-white text-dark" name="gender">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Email Address <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-envelope"></i></span>
+              <input type="email" class="form-control bg-white text-dark" name="email" placeholder="john@example.com" required>
+            </div>
+            <div class="form-text text-muted small">A welcome email will be sent upon successful registration.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Phone Number</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-phone"></i></span>
+              <input type="tel" class="form-control bg-white text-dark" name="phone" placeholder="+1 (555) 000-0000">
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold text-dark">Password <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" class="form-control bg-white text-dark" name="password" placeholder="••••••••" required minlength="6">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold text-dark">Confirm Password <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border text-dark"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" class="form-control bg-white text-dark" name="confirm_password" placeholder="••••••••" required minlength="6">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary-gradient w-100 py-3 rounded-pill fw-semibold shadow-sm mb-3 text-white">
+            <i class="fa-solid fa-check me-2"></i> Register Account
+          </button>
+
+          <div class="text-center text-secondary small">
+            Already have an account? <a href="{{ url_for('login') }}" class="text-primary-accent text-decoration-none fw-bold">Login here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
