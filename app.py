@@ -84,12 +84,26 @@ def get_disease_description_map():
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if "user_id" not in session:
+        user_id = session.get("user_id")
+
+        if not user_id:
+            session.clear()
             flash("Please log in to access this page.", "warning")
             return redirect(url_for("login"))
-        return f(*args, **kwargs)
-    return decorated_function
 
+        user = db.query_one(
+            "SELECT id FROM users WHERE id = ?",
+            (user_id,)
+        )
+
+        if not user:
+            session.clear()
+            flash("Your session expired. Please login again.", "warning")
+            return redirect(url_for("login"))
+
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 def doctor_login_required(f):
     @wraps(f)
