@@ -3,167 +3,654 @@
 {% block title %}Emergency Ambulance Services (108 SOS) — AI Health Assistant{% endblock %}
 
 {% block content %}
+
 <div class="container py-4">
-  
+
   <!-- Header Banner -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="glass-card p-4 border-danger border-opacity-50" style="background: linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);">
+
+      <div class="glass-card p-4 border-danger border-opacity-50"
+           style="background: linear-gradient(135deg, rgba(254,242,242,0.95) 0%, rgba(255,255,255,0.95) 100%);">
+
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
           <div>
+
             <div class="d-flex align-items-center gap-2 mb-1">
-              <span class="badge bg-danger fs-6 px-3 py-2 rounded-pill pulse-sos"><i class="fa-solid fa-truck-medical me-1"></i> EMERGENCY SOS</span>
-              <span class="badge bg-dark fs-6 px-3 py-2 rounded-pill">Helpline: 108 / 112</span>
+
+              <span class="badge bg-danger fs-6 px-3 py-2 rounded-pill pulse-sos">
+                <i class="fa-solid fa-truck-medical me-1"></i>
+                EMERGENCY SOS
+              </span>
+
+              <span class="badge bg-dark fs-6 px-3 py-2 rounded-pill">
+                Helpline: 108 / 112
+              </span>
+
             </div>
-            <h2 class="fw-bold text-danger mb-1 mt-2">1-Click Emergency Ambulance Dispatch</h2>
-            <p class="text-muted mb-0">Instant SMS dispatch to patient & driver with live Google Maps route navigation to patient's location.</p>
+
+            <h2 class="fw-bold text-danger mb-1 mt-2">
+              1-Click Emergency Ambulance Dispatch
+            </h2>
+
+            <p class="text-muted mb-0">
+              Detect patient GPS location, contact ambulance services and open Google Maps navigation.
+            </p>
+
           </div>
+
           <div class="d-flex gap-2">
-            <a href="tel:108" class="btn btn-danger btn-lg px-4 fw-bold rounded-pill shadow">
-              <i class="fa-solid fa-phone me-2"></i> Call 108 Now
+
+            <a href="tel:108"
+               class="btn btn-danger btn-lg px-4 fw-bold rounded-pill shadow">
+
+              <i class="fa-solid fa-phone me-2"></i>
+              Call 108 Now
+
             </a>
+
           </div>
+
         </div>
       </div>
     </div>
   </div>
 
+
   <div class="row g-4">
-    <!-- Left Column: Emergency Input Form -->
+
+    <!-- LEFT SIDE -->
     <div class="col-lg-6">
+
       <div class="glass-card p-4 h-100">
+
         <h4 class="fw-bold text-dark mb-3">
-          <i class="fa-solid fa-location-dot text-danger me-2"></i>Patient & Emergency Location Form
+          <i class="fa-solid fa-location-dot text-danger me-2"></i>
+          Patient & Emergency Location Form
         </h4>
+
+
         <form method="POST" action="{{ url_for('ambulance') }}">
+
+          <!-- GPS values -->
+          <input type="hidden"
+                 id="latitude"
+                 name="latitude">
+
+          <input type="hidden"
+                 id="longitude"
+                 name="longitude">
+
+
+          <!-- Patient Name -->
           <div class="mb-3">
-            <label class="form-label">Patient Full Name <span class="text-danger">*</span></label>
-            <input type="text" name="patient_name" class="form-control" placeholder="Enter patient full name" 
-                   value="{% if user %}{{ user.full_name }}{% else %}John Patient{% endif %}" required>
+
+            <label class="form-label">
+              Patient Full Name
+              <span class="text-danger">*</span>
+            </label>
+
+            <input type="text"
+                   name="patient_name"
+                   class="form-control"
+                   placeholder="Enter patient full name"
+                   value="{% if user %}{{ user.full_name }}{% else %}John Patient{% endif %}"
+                   required>
+
           </div>
+
 
           <div class="row">
+
+            <!-- Age -->
             <div class="col-md-6 mb-3">
-              <label class="form-label">Patient Age <span class="text-danger">*</span></label>
-              <input type="number" name="patient_age" class="form-control" placeholder="Age in years" 
-                     value="{% if user and user.age %}{{ user.age }}{% else %}29{% endif %}" required>
+
+              <label class="form-label">
+                Patient Age
+                <span class="text-danger">*</span>
+              </label>
+
+              <input type="number"
+                     name="patient_age"
+                     class="form-control"
+                     placeholder="Age in years"
+                     value="{% if user and user.age %}{{ user.age }}{% else %}29{% endif %}"
+                     required>
+
             </div>
+
+
+            <!-- Patient phone -->
             <div class="col-md-6 mb-3">
-              <label class="form-label">Contact Mobile Number <span class="text-danger">*</span></label>
-              <input type="tel" name="mobile_number" class="form-control" placeholder="10-digit mobile number" 
-                     value="{% if user and user.phone %}{{ user.phone }}{% else %}9876543210{% endif %}" required>
-              <small class="text-muted">SMS alerts will be sent to this number.</small>
+
+              <label class="form-label">
+                Patient Mobile Number
+                <span class="text-danger">*</span>
+              </label>
+
+              <input type="tel"
+                     name="mobile_number"
+                     class="form-control"
+                     placeholder="10-digit mobile number"
+                     value="{% if user and user.phone %}{{ user.phone }}{% else %}9876543210{% endif %}"
+                     required>
+
             </div>
+
           </div>
 
+
+          <!-- LOCATION -->
           <div class="mb-3">
-            <label class="form-label">Emergency Area / Address / Landmark <span class="text-danger">*</span></label>
+
+            <label class="form-label">
+              Emergency Area / Address / Landmark
+              <span class="text-danger">*</span>
+            </label>
+
             <div class="input-group">
-              <input type="text" id="areaInput" name="area_location" class="form-control" 
-                     placeholder="e.g. 100 Feet Road, Indiranagar, Bengaluru, Karnataka" 
-                     value="MG Road, Indiranagar, Bengaluru" required>
-              <button type="button" class="btn btn-outline-secondary" onclick="detectLiveLocation()">
-                <i class="fa-solid fa-crosshairs me-1"></i> Detect GPS
+
+              <input type="text"
+                     id="areaInput"
+                     name="area_location"
+                     class="form-control"
+                     placeholder="Detect GPS or enter location"
+                     required>
+
+              <button type="button"
+                      id="detectLocationBtn"
+                      class="btn btn-outline-secondary"
+                      onclick="detectLiveLocation()">
+
+                <i class="fa-solid fa-crosshairs me-1"></i>
+                Detect GPS
+
               </button>
+
             </div>
-            <small class="text-muted">Driver will receive direct turn-by-turn navigation to this address.</small>
+
+            <small class="text-muted">
+              Your current latitude and longitude will be detected automatically.
+            </small>
+
           </div>
 
+
+          <!-- Emergency -->
           <div class="mb-4">
-            <label class="form-label">Emergency Symptoms / Condition</label>
-            <textarea name="emergency_reason" class="form-control" rows="3" 
-                      placeholder="e.g. Severe chest pain, breathing trouble, unconsciousness, severe injury">Severe chest discomfort and difficulty in breathing</textarea>
+
+            <label class="form-label">
+              Emergency Symptoms / Condition
+            </label>
+
+            <textarea name="emergency_reason"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Example: chest pain, breathing problem, accident"></textarea>
+
           </div>
 
-          <button type="submit" class="btn btn-danger-gradient w-100 py-3 fs-5 fw-bold rounded-3 pulse-sos shadow">
-            <i class="fa-solid fa-truck-medical me-2"></i> DISPATCH AMBULANCE NOW (108 SOS)
+
+          <!-- Dispatch -->
+          <button type="submit"
+                  class="btn btn-danger-gradient w-100 py-3 fs-5 fw-bold rounded-3 pulse-sos shadow">
+
+            <i class="fa-solid fa-truck-medical me-2"></i>
+
+            DISPATCH AMBULANCE NOW (108 SOS)
+
           </button>
+
         </form>
+
+
+        <!-- SMS SECTION -->
+
+        <hr class="my-4">
+
+        <h5 class="fw-bold text-danger">
+          <i class="fa-solid fa-message me-2"></i>
+          Send Location to Ambulance
+        </h5>
+
+        <p class="small text-muted">
+          Enter the ambulance/service mobile number and send the patient's GPS location.
+        </p>
+
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Ambulance Mobile Number
+          </label>
+
+          <input type="tel"
+                 id="ambulance_phone"
+                 class="form-control"
+                 placeholder="Enter ambulance mobile number">
+
+        </div>
+
+
+        <button type="button"
+                onclick="sendAmbulanceSMS()"
+                class="btn btn-success w-100 py-2 fw-bold">
+
+          <i class="fa-solid fa-comment-sms me-2"></i>
+          Send Emergency SMS
+
+        </button>
+
       </div>
+
     </div>
 
-    <!-- Right Column: Live Route & Status -->
+
+    <!-- RIGHT SIDE -->
+
     <div class="col-lg-6">
+
       <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+
         <div>
+
           <div class="d-flex justify-content-between align-items-center mb-3">
+
             <h4 class="fw-bold text-dark mb-0">
-              <i class="fa-solid fa-map-location-dot text-primary me-2"></i>Live Route & Dispatch Status
+
+              <i class="fa-solid fa-map-location-dot text-primary me-2"></i>
+
+              Live Route & Dispatch Status
+
             </h4>
+
+
             {% if dispatched %}
-              <span class="badge bg-success px-3 py-2 rounded-pill">AMBULANCE EN ROUTE</span>
+
+            <span class="badge bg-success px-3 py-2 rounded-pill">
+              AMBULANCE EN ROUTE
+            </span>
+
             {% else %}
-              <span class="badge bg-secondary px-3 py-2 rounded-pill">READY FOR DISPATCH</span>
+
+            <span class="badge bg-secondary px-3 py-2 rounded-pill">
+              READY FOR DISPATCH
+            </span>
+
             {% endif %}
+
           </div>
+
 
           {% if dispatched %}
-            <div class="alert alert-danger border-2 mb-4 p-3 rounded-3">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <i class="fa-solid fa-circle-check text-danger fs-4"></i>
-                <h5 class="fw-bold text-danger mb-0">Ambulance Unit AMB-108 Dispatched!</h5>
-              </div>
-              <ul class="mb-0 ps-3 small text-dark">
-                <li><strong>Patient:</strong> {{ patient_name }} (Age: {{ patient_age }})</li>
-                <li><strong>Location:</strong> {{ area_location }}</li>
-                <li><strong>SMS Notification:</strong> Dispatched to <code>{{ mobile_number }}</code></li>
-                <li><strong>Estimated Arrival:</strong> 8 - 12 Minutes (Paramedic Unit On-Board)</li>
-              </ul>
+
+          <div class="alert alert-danger border-2 mb-4 p-3 rounded-3">
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+
+              <i class="fa-solid fa-circle-check text-danger fs-4"></i>
+
+              <h5 class="fw-bold text-danger mb-0">
+                Ambulance Unit AMB-108 Dispatched!
+              </h5>
+
             </div>
 
-            <!-- Direct Google Maps Navigation Button -->
-            <div class="d-grid gap-2 mb-4">
-              <a href="{{ maps_url }}" target="_blank" class="btn btn-primary-gradient py-3 fw-bold fs-6 rounded-3 shadow">
-                <i class="fa-solid fa-diamond-turn-right me-2"></i> Open Google Maps Direct Route Navigation
-              </a>
-            </div>
+
+            <ul class="mb-0 ps-3 small text-dark">
+
+              <li>
+                <strong>Patient:</strong>
+                {{ patient_name }}
+                (Age: {{ patient_age }})
+              </li>
+
+              <li>
+                <strong>Location:</strong>
+                {{ area_location }}
+              </li>
+
+              <li>
+                <strong>SMS Notification:</strong>
+                {{ mobile_number }}
+              </li>
+
+              <li>
+                <strong>Estimated Arrival:</strong>
+                8 - 12 Minutes
+              </li>
+
+            </ul>
+
+          </div>
+
+
+          <div class="d-grid gap-2 mb-4">
+
+            <a href="{{ maps_url }}"
+               target="_blank"
+               class="btn btn-primary-gradient py-3 fw-bold fs-6 rounded-3 shadow">
+
+              <i class="fa-solid fa-diamond-turn-right me-2"></i>
+
+              Open Google Maps Route
+
+            </a>
+
+          </div>
+
           {% else %}
-            <div class="text-center py-4 text-muted">
-              <i class="fa-solid fa-satellite-dish fs-1 text-primary-accent mb-3"></i>
-              <h5>GPS & Google Maps Navigation Ready</h5>
-              <p class="small">Submit the emergency form on the left. The system will immediately dispatch SMS alerts, send priority email notifications, and open Google Maps navigation route for ambulance paramedics.</p>
-            </div>
+
+
+          <div class="text-center py-4 text-muted">
+
+            <i class="fa-solid fa-satellite-dish fs-1 text-primary-accent mb-3"></i>
+
+            <h5>
+              GPS & Google Maps Navigation Ready
+            </h5>
+
+            <p class="small">
+              Detect your current location and request an ambulance.
+            </p>
+
+          </div>
+
           {% endif %}
 
-          <!-- Quick Hospital Locator -->
+
+          <!-- Nearby Emergency -->
+
           <div class="border rounded-3 p-3 bg-light mt-3">
-            <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-hospital text-danger me-1"></i> Nearby Emergency Centers</h6>
+
+            <h6 class="fw-bold text-dark mb-2">
+
+              <i class="fa-solid fa-hospital text-danger me-1"></i>
+
+              Nearby Emergency Services
+
+            </h6>
+
+
             <div class="d-flex flex-wrap gap-2">
-              <a href="https://www.google.com/maps/search/hospital+near+me" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill">
-                <i class="fa-solid fa-magnifying-glass-location me-1"></i> Find Nearest Hospitals
+
+              <button type="button"
+                      onclick="findNearbyAmbulances()"
+                      class="btn btn-sm btn-outline-danger rounded-pill">
+
+                <i class="fa-solid fa-truck-medical me-1"></i>
+
+                Nearby Ambulances
+
+              </button>
+
+
+              <a href="https://www.google.com/maps/search/hospital+near+me"
+                 target="_blank"
+                 class="btn btn-sm btn-outline-primary rounded-pill">
+
+                <i class="fa-solid fa-hospital me-1"></i>
+
+                Nearby Hospitals
+
               </a>
-              <a href="https://www.google.com/maps/search/pharmacy+near+me" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill">
-                <i class="fa-solid fa-pills me-1"></i> 24/7 Pharmacies
+
+
+              <a href="https://www.google.com/maps/search/pharmacy+near+me"
+                 target="_blank"
+                 class="btn btn-sm btn-outline-secondary rounded-pill">
+
+                <i class="fa-solid fa-pills me-1"></i>
+
+                24/7 Pharmacies
+
               </a>
+
             </div>
+
           </div>
+
         </div>
 
+
         <div class="mt-4 pt-3 border-top text-center text-muted small">
-          <i class="fa-solid fa-shield-halved text-success me-1"></i> High Priority Response • 24x7 Ambulance Control Center
+
+          <i class="fa-solid fa-shield-halved text-success me-1"></i>
+
+          High Priority Response • 24x7 Ambulance Control Center
+
         </div>
+
       </div>
+
     </div>
+
   </div>
 
 </div>
 
+
 <script>
+
+/* ==============================
+   DETECT CURRENT GPS LOCATION
+================================ */
+
 function detectLiveLocation() {
-  const areaField = document.getElementById("areaInput");
-  if (navigator.geolocation) {
-    areaField.value = "Detecting current GPS coordinates...";
+
+    const areaField =
+        document.getElementById("areaInput");
+
+    const latitudeField =
+        document.getElementById("latitude");
+
+    const longitudeField =
+        document.getElementById("longitude");
+
+    const button =
+        document.getElementById("detectLocationBtn");
+
+
+    if (!navigator.geolocation) {
+
+        alert("GPS location is not supported on this device.");
+
+        return;
+    }
+
+
+    areaField.value = "Detecting current location...";
+
+    if (button) {
+        button.disabled = true;
+        button.innerHTML = "Detecting...";
+    }
+
+
     navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        const lat = pos.coords.latitude.toFixed(5);
-        const lon = pos.coords.longitude.toFixed(5);
-        areaField.value = `GPS: ${lat}, ${lon} (Lat/Lon)`;
-      },
-      function(err) {
-        areaField.value = "Indiranagar, Bengaluru, Karnataka";
-      }
+
+        function(position) {
+
+            const lat = position.coords.latitude;
+
+            const lon = position.coords.longitude;
+
+
+            latitudeField.value = lat;
+
+            longitudeField.value = lon;
+
+
+            areaField.value =
+                "GPS: " +
+                lat.toFixed(6) +
+                ", " +
+                lon.toFixed(6);
+
+
+            if (button) {
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    '<i class="fa-solid fa-circle-check me-1"></i> Location Detected';
+
+            }
+
+
+            alert(
+                "Location detected successfully!\n\n" +
+                "Latitude: " +
+                lat.toFixed(6) +
+                "\nLongitude: " +
+                lon.toFixed(6)
+            );
+
+        },
+
+
+        function(error) {
+
+            if (button) {
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    '<i class="fa-solid fa-crosshairs me-1"></i> Detect GPS';
+
+            }
+
+
+            if (error.code === 1) {
+
+                alert(
+                    "Location permission denied. Please allow location permission."
+                );
+
+            }
+
+            else if (error.code === 2) {
+
+                alert(
+                    "Current location is unavailable."
+                );
+
+            }
+
+            else {
+
+                alert(
+                    "Unable to detect location. Please try again."
+                );
+
+            }
+
+        },
+
+
+        {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 0
+        }
+
     );
-  }
+
 }
+
+
+/* ==============================
+   SEND SMS TO AMBULANCE
+================================ */
+
+function sendAmbulanceSMS() {
+
+    let phone =
+        document.getElementById("ambulance_phone").value.trim();
+
+    let lat =
+        document.getElementById("latitude").value;
+
+    let lon =
+        document.getElementById("longitude").value;
+
+
+    if (!phone) {
+
+        alert("Enter ambulance mobile number.");
+
+        return;
+
+    }
+
+
+    if (!lat || !lon) {
+
+        alert("First press Detect GPS to get patient location.");
+
+        return;
+
+    }
+
+
+    let message =
+        "EMERGENCY AMBULANCE REQUEST\n\n" +
+        "Please respond immediately.\n\n" +
+        "Patient Location:\n" +
+        "https://maps.google.com/?q=" +
+        lat +
+        "," +
+        lon;
+
+
+    const smsURL =
+        "sms:" +
+        phone +
+        "?body=" +
+        encodeURIComponent(message);
+
+
+    window.location.href = smsURL;
+
+}
+
+
+/* ==============================
+   FIND NEARBY AMBULANCES
+================================ */
+
+function findNearbyAmbulances() {
+
+    let lat =
+        document.getElementById("latitude").value;
+
+    let lon =
+        document.getElementById("longitude").value;
+
+
+    if (!lat || !lon) {
+
+        alert("First press Detect GPS.");
+
+        return;
+
+    }
+
+
+    const mapsURL =
+        "https://www.google.com/maps/search/ambulance/@" +
+        lat +
+        "," +
+        lon +
+        ",14z";
+
+
+    window.open(mapsURL, "_blank");
+
+}
+
 </script>
+
+
 {% endblock %}
